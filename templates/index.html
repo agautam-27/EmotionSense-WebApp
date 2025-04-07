@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EmotionSense - AI Emotion Detection</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>EmotionSense <span class="subtitle">AI Emotion Detection</span></h1>
+      <nav>
+        <ul>
+          <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
+          <li><a href="{{ url_for('about') }}">About</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h2>Discover the emotion behind your words</h2>
+        <p>
+          Our advanced AI analyzes your text to detect joy, sadness, anger,
+          fear, love, and surprise.
+        </p>
+      </section>
+
+      <section class="input-section">
+        <form id="emotion-form">
+          <textarea id="text-input" placeholder="Type something to analyze its emotional content..."
+            required></textarea>
+          <button type="submit" id="analyze-btn">Analyze Emotion</button>
+        </form>
+      </section>
+
+      <section class="result-section" id="result-container" style="display: none">
+        <div class="loader" id="loader">
+          <div class="emoji-loader">
+            <span>😀</span>
+            <span>😢</span>
+            <span>😠</span>
+            <span>😨</span>
+            <span>❤️</span>
+            <span>😲</span>
+          </div>
+          <p>Analyzing emotions...</p>
+        </div>
+
+        <div class="result" id="result" style="display: none">
+          <div class="emotion-display">
+            <div class="emoji" id="emotion-emoji">😀</div>
+            <h3>Detected Emotion: <span id="emotion-text">Joy</span></h3>
+          </div>
+
+          <div class="confidence-bars">
+            <h4>Confidence Levels:</h4>
+            <div id="confidence-container"></div>
+          </div>
+
+          <p class="analyzed-text">"<span id="analyzed-text"></span>"</p>
+
+          <!-- Side-by-side action buttons -->
+          <div class="action-buttons">
+            <button type="button" id="inspiration-btn" onclick="showMotivationalQuote()">
+              <i class="fas fa-lightbulb"></i> Need Inspiration?
+            </button>
+            <button type="button" id="game-btn" onclick="startEmotionGame()">
+              <i class="fas fa-gamepad"></i> Challenge Yourself
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quote section is outside the result container but inside main -->
+      <section class="quote-section" id="quote-container" style="display: none">
+        <div class="quote-card">
+          <p class="quote-text"></p>
+          <p class="quote-author"></p>
+          <button class="speak-button">
+            <i class="fas fa-volume-up"></i> Listen
+          </button>
+        </div>
+      </section>
+
+      <!-- Game section -->
+      <section class="game-section" id="game-container" style="display: none;">
+        <div class="game-card">
+          <h3>Emotion Master Challenge</h3>
+
+          <div id="game-status">
+            <div class="game-status">
+              <div class="status-item">
+                <div class="status-label">LEVEL</div>
+                <div class="level-indicator">
+                  <div class="level-text">
+                    <span id="current-level">1</span>/<span id="total-levels">5</span>
+                  </div>
+                  <div class="level-progress">
+                    <div class="level-progress-bar" id="level-progress-bar"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="status-item">
+                <div class="status-label">SCORE</div>
+                <div class="status-value" id="current-score">0</div>
+              </div>
+
+              <div class="status-item">
+                <div class="status-label">TIME</div>
+                <div class="timer-container">
+                  <div class="timer-icon"><i class="fas fa-hourglass-half"></i></div>
+                  <div class="timer-value" id="timer-value">30</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="game-target">
+            <div class="difficulty-badge">
+              Difficulty: <span id="level-difficulty">Medium</span>
+            </div>
+            <p>Express this emotion:</p>
+            <span id="target-emotion">joy</span>
+            <p id="target-description">Select the sentence that best expresses pure happiness</p>
+          </div>
+
+          <!-- Multiple choice section -->
+          <div id="sentence-options-container">
+            <div class="sentence-options-instructions">
+              <p>Select the sentence that best expresses this emotion:</p>
+            </div>
+            <div id="sentence-options" class="sentence-options">
+              <!-- Sentence cards will be added here dynamically -->
+            </div>
+            <div class="game-submit-container">
+              <button type="button" id="game-submit-btn" onclick="submitSentenceSelection()" disabled>Submit
+                Selection</button>
+            </div>
+          </div>
+
+          <div id="game-result" style="display: none;">
+            <h4 class="level-complete" id="level-complete">Level Complete!</h4>
+
+            <div class="score-display">
+              <div class="score-circle" id="score-circle">85</div>
+              <p id="game-feedback">Great choice! This perfectly expresses the emotion.</p>
+            </div>
+
+            <div class="selected-sentence">
+              <p>Your selection:</p>
+              <div class="selected-text-box">
+                "<span id="selected-text">I won the lottery! This is the best day of my life!</span>"
+              </div>
+            </div>
+
+            <div class="score-details">
+              <div class="score-row">
+                <div class="score-label">Emotion Score</div>
+                <div class="score-value" id="score-circle-value">85</div>
+              </div>
+              <div class="score-row" id="bonus-container" style="opacity: 0; transform: translateY(20px);">
+                <div class="score-label">Time Bonus</div>
+                <div class="score-value" id="time-bonus">+15</div>
+              </div>
+              <div class="score-row" id="total-container" style="opacity: 0; transform: translateY(20px);">
+                <div class="score-label">Total Points</div>
+                <div class="score-value" id="total-points">100</div>
+              </div>
+            </div>
+
+            <div class="action-button-container">
+              <button type="button" id="next-level-btn" onclick="nextLevel()" style="display: none;">Next Level</button>
+            </div>
+          </div>
+
+          <div id="final-results" style="display: none;">
+            <div class="trophy-icon">
+              <i class="fas fa-trophy"></i>
+            </div>
+            <h4 class="final-header">Challenge Complete!</h4>
+            <p>You've completed all levels of the Emotion Master Challenge</p>
+
+            <div class="final-score-display">
+              <span id="final-score">425</span> points
+            </div>
+
+            <div class="rank-container">
+              <p class="rank-title">Your Emotional Intelligence Rank:</p>
+              <div class="player-rank rank-expert" id="player-rank">Emotion Expert</div>
+            </div>
+
+            <div class="emoji-feedback">
+              Congratulations on mastering the art of emotional expression!
+            </div>
+
+            <button id="play-again-btn">Play Again</button>
+
+            <div id="confetti-container" class="confetti-container"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Developed for COMP4949 Assignment 2 &copy; 2025</p>
+    </footer>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

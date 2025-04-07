@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About EmotionSense - AI Emotion Detection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>EmotionSense <span class="subtitle">AI Emotion Detection</span></h1>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Try It</a></li>
+                    <li><a href="{{ url_for('about') }}" class="active">About</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="about-section">
+                <h2>About EmotionSense</h2>
+                
+                <div class="about-card">
+                    <h3><i class="fas fa-brain"></i> The Technology</h3>
+                    <p>EmotionSense uses machine learning to analyze text and detect emotions. The system is trained on thousands of labeled examples and can recognize six basic emotions: joy, sadness, anger, fear, love, and surprise.</p>
+                    <p>Our model combines TF-IDF vectorization with advanced linguistic features to capture emotional nuances in text.</p>
+                </div>
+                
+                <div class="about-card">
+                    <h3><i class="fas fa-chart-line"></i> Model Performance</h3>
+                    <p>Our emotion detection model achieves high accuracy for most emotions:</p>
+                    <ul class="performance-list">
+                        <li>Joy: <span class="performance-bar" style="width: 80%;">80%</span></li>
+                        <li>Sadness: <span class="performance-bar" style="width: 67%;">67%</span></li>
+                        <li>Fear: <span class="performance-bar" style="width: 100%;">100%</span></li>
+                        <li>Anger: <span class="performance-bar" style="width: 40%;">40%</span></li>
+                        <li>Love: <span class="performance-bar" style="width: 50%;">50%</span></li>
+                        <li>Surprise: <span class="performance-bar" style="width: 60%;">60%</span></li>
+                    </ul>
+                    <p class="note">Note: Performance values are approximate and may vary based on input text.</p>
+                </div>
+                
+                <div class="about-card">
+                    <h3><i class="fas fa-lightbulb"></i> Applications</h3>
+                    <p>Emotion detection technology has numerous practical applications:</p>
+                    <ul>
+                        <li>Customer feedback analysis</li>
+                        <li>Social media monitoring</li>
+                        <li>Mental health support tools</li>
+                        <li>Interactive storytelling</li>
+                        <li>Voice assistant emotional intelligence</li>
+                    </ul>
+                </div>
+                
+                <div class="about-card">
+                    <h3><i class="fas fa-code"></i> Development</h3>
+                    <p>This project was developed for COMP4949 Assignment 2. The application demonstrates the practical application of machine learning concepts in a real-world context.</p>
+                    <p>Technologies used include:</p>
+                    <ul>
+                        <li>Python (scikit-learn, NLTK, Flask)</li>
+                        <li>HTML/CSS/JavaScript</li>
+                        <li>Machine Learning techniques (TF-IDF, Logistic Regression)</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Developed for COMP4949 Assignment 2 &copy; 2025</p>
+        </footer>
+    </div>
+</body>
+</html>
