@@ -1,11 +1,14 @@
 # app.py
 from flask import Flask, render_template, request, jsonify
 from emotion_detector import EmotionDetector
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 import json
 import random
 import os
 
 app = Flask(__name__)
+CORS(app)
 
 # Initialize the emotion detector with the basic model
 model_path = "basic_model.pkl"  
